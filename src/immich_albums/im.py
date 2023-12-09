@@ -1,5 +1,6 @@
 from typing import Optional
 
+
 import os
 import click
 import openapi_client

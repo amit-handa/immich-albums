@@ -142,14 +142,14 @@ class ImmichAlbums:
 
         if not dry_run:
             if album_id:
-                print(f"Adding assets to album {album_id}")
-                self.delete_album(album_id)
+                print(f"deleting album {album_id}")
+                # self.delete_album(album_id)
                 # self.add_picture_to_album(album_id, assets_ids)
             else:
                 print(f"Creating album {album}")
-                album_id = self.create_album(album, assets_ids)
+                # album_id = self.create_album(album, assets_ids)
                 print("Creating .album")
-                write_album_id(path, album_id)
+                # write_album_id(path, album_id)
         else:
             print(f"DRY RUN: Creating album {album}")
             print(f"DRY RUN: Assets ids: {assets_ids}")

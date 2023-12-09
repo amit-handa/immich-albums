@@ -1,6 +1,7 @@
 from typing import Optional
 
 import os
+import re
 import click
 import openapi_client
 from openapi_client import ApiException, AlbumResponseDto
@@ -163,7 +164,7 @@ class ImmichAlbums:
             print(f"getting all albums\n")
             allalbums = api_instance.get_all_albums()
             for albumresponse in allalbums:
-                if albumresponse.album_name.regex('immich|encoded'):
+                if re.search("immich|encoded", albumresponse.album_name):
                     print(albumresponse)
         except ApiException as e:
             print(f"Exception when calling delete_all_albums: {e}\n")

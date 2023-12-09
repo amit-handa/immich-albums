@@ -164,8 +164,8 @@ class ImmichAlbums:
             print(f"getting all albums\n")
             allalbums = api_instance.get_all_albums()
             for albumresponse in allalbums:
-                if re.search("immich|encoded", albumresponse.album_name):
-                    print(albumresponse)
+                if not re.search("immich|encoded", albumresponse.album_name):
+                    api_instance.delete_album(albumresponse.id)
         except ApiException as e:
             print(f"Exception when calling delete_all_albums: {e}\n")
 

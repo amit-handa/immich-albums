@@ -143,6 +143,7 @@ class ImmichAlbums:
         if not dry_run:
             if album_id:
                 print(f"deleting album {album_id}")
+                exit(0)
                 # self.delete_album(album_id)
                 # self.add_picture_to_album(album_id, assets_ids)
             else:
@@ -153,6 +154,18 @@ class ImmichAlbums:
         else:
             print(f"DRY RUN: Creating album {album}")
             print(f"DRY RUN: Assets ids: {assets_ids}")
+
+    def delete_all_albums(self):
+        with openapi_client.ApiClient(self.api_configuration) as api_client:
+            # Create an instance of the API class
+            api_instance = openapi_client.AlbumApi(api_client)
+        try:
+            print(f"getting all albums\n")
+            allalbums = api_instance.get_all_albums()
+            for albumresponse in allalbums:
+                print(albumresponse)
+        except ApiException as e:
+            print(f"Exception when calling delete_all_albums: {e}\n")
 
     def create_albums_from_folder(self,
                                   path: str,
@@ -216,6 +229,9 @@ def cli(api_key, api_host, path, original_path, replace_path, recursive,
         dry_run, skip, skip_existing):
     immich_albums = ImmichAlbums(api_host, api_key)
     abs_path = os.path.abspath(path)
+    immich_albums.delete_all_albums()
+
+    """
     immich_albums.create_albums_from_folder(
         path=abs_path,
         original_path=original_path,
@@ -225,6 +241,7 @@ def cli(api_key, api_host, path, original_path, replace_path, recursive,
         skip=skip,
         skip_existing=skip_existing
     )
+    """
 
 
 # main block

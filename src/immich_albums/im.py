@@ -1,6 +1,5 @@
 from typing import Optional
 
-
 import os
 import click
 import openapi_client
@@ -68,6 +67,32 @@ class ImmichAlbums:
         except ApiException as e:
             print(f"Exception when calling create_album: {e}\n")
 
+    def get_album(self, album_id) -> AlbumResponseDto:
+        with openapi_client.ApiClient(self.api_configuration) as api_client:
+            # Create an instance of the API class
+            api_instance = openapi_client.AlbumApi(api_client)
+
+        try:
+            print(f"get album ${album_id}\n")
+            api_response: AlbumResponseDto = api_instance.get_album_info(album_id)
+            print(f"Album id {api_response.id}")
+            print("The response of get album:\n")
+            print(api_response)
+
+            return api_response
+        except ApiException as e:
+            print(f"Exception when calling get_album: {e}\n")
+
+    def delete_album(self, album_id):
+        with openapi_client.ApiClient(self.api_configuration) as api_client:
+            # Create an instance of the API class
+            api_instance = openapi_client.AlbumApi(api_client)
+        try:
+            print(f"Deleting album ${album_id}\n")
+            api_instance.delete_album( album_id )
+        except ApiException as e:
+            print(f"Exception when calling delete_album: {e}\n")
+
     def add_picture_to_album(self, album_id, asset_ids):
         with openapi_client.ApiClient(self.api_configuration) as api_client:
             # Create an instance of the API class
@@ -118,7 +143,8 @@ class ImmichAlbums:
         if not dry_run:
             if album_id:
                 print(f"Adding assets to album {album_id}")
-                self.add_picture_to_album(album_id, assets_ids)
+                self.delete_album(album_id)
+                # self.add_picture_to_album(album_id, assets_ids)
             else:
                 print(f"Creating album {album}")
                 album_id = self.create_album(album, assets_ids)

@@ -115,12 +115,12 @@ class ImmichAlbums:
             full_path = os.path.join(folder, filename)
             if os.path.isfile(full_path):
                 replaced_path = full_path.replace(original_path, replace_path)
-                print(f"searching for: {replaced_path}")
+                # print(f"searching for: {replaced_path}")
                 asset_id = self.get_asset_by_original_path(replaced_path)
                 if asset_id is None:
                     print(f'not found: {replaced_path}')
                 else:
-                    print(f'found asset id: {asset_id}')
+                    # print(f'found asset id: {asset_id}')
                     assets_ids.append(asset_id)
 
         return [str(asset_id) for asset_id in assets_ids]
@@ -168,6 +168,12 @@ class ImmichAlbums:
         except ApiException as e:
             print(f"Exception when calling delete_all_albums: {e}\n")
 
+    def matchSkip(self, skiplist, name):
+        for skip in skiplist:
+            if re.search(skip, name):
+                return True
+        return False
+
     def create_albums_from_folder(self,
                                   path: str,
                                   original_path: str,
@@ -181,9 +187,12 @@ class ImmichAlbums:
         if skip is None:
             skip = []
 
+        skip.append("trash")
+        skip.append("^\\.")
+
         if recursive:
             for folder_name, sub_folders, filenames in os.walk(path):
-                if folder_name in skip:
+                if self.matchSkip(skip, folder_name):
                     print(f"Skipping folder: {folder_name}")
                     continue
                 print(f"Processing folder: {folder_name}\n")

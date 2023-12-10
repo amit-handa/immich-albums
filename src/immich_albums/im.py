@@ -112,6 +112,10 @@ class ImmichAlbums:
         assets_ids = []
 
         for filename in os.listdir(folder):
+            if filename.startswith("."):
+                print(f"skipping filename {filename}\n")
+                continue
+
             full_path = os.path.join(folder, filename)
             if os.path.isfile(full_path):
                 replaced_path = full_path.replace(original_path, replace_path)
@@ -186,6 +190,8 @@ class ImmichAlbums:
 
         if skip is None:
             skip = []
+        else:
+            skip = list(skip)
 
         skip.append("trash")
         skip.append("^\\.")

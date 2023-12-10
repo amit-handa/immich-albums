@@ -143,11 +143,10 @@ class ImmichAlbums:
 
         if not dry_run:
             if album_id:
-                print(f"deleting album {album_id}")
-                exit(0)
+                print(f"add pics to album {album_id}")
                 # self.delete_album(album_id)
                 # self.add_picture_to_album(album_id, assets_ids)
-            else:
+            elif len(assets_ids) > 0:
                 print(f"Creating album {album}")
                 # album_id = self.create_album(album, assets_ids)
                 print("Creating .album")
@@ -193,9 +192,9 @@ class ImmichAlbums:
                 for sub_folder in sub_folders:
                     path = os.path.join(folder_name, sub_folder)
                     print(path)
-                    # self.create_albums_from_folder(path, original_path, replace_path, True, dry_run,
-                    #                               skip=skip,
-                    #                               skip_existing=skip_existing)
+                    self.create_albums_from_folder(path, original_path, replace_path, True, dry_run,
+                                                  skip=skip,
+                                                  skip_existing=skip_existing)
         else:
             print(f"Processing folder: {path}\n")
             self.create_album_from_folder(path, original_path, replace_path, dry_run, skip_existing=skip_existing)

@@ -192,9 +192,10 @@ class ImmichAlbums:
 
                 for sub_folder in sub_folders:
                     path = os.path.join(folder_name, sub_folder)
-                    self.create_albums_from_folder(path, original_path, replace_path, True, dry_run,
-                                                   skip=skip,
-                                                   skip_existing=skip_existing)
+                    print(path)
+                    # self.create_albums_from_folder(path, original_path, replace_path, True, dry_run,
+                    #                               skip=skip,
+                    #                               skip_existing=skip_existing)
         else:
             print(f"Processing folder: {path}\n")
             self.create_album_from_folder(path, original_path, replace_path, dry_run, skip_existing=skip_existing)
@@ -231,9 +232,8 @@ def cli(api_key, api_host, path, original_path, replace_path, recursive,
         dry_run, skip, skip_existing):
     immich_albums = ImmichAlbums(api_host, api_key)
     abs_path = os.path.abspath(path)
-    immich_albums.delete_all_albums()
+    # immich_albums.delete_all_albums()
 
-    """
     immich_albums.create_albums_from_folder(
         path=abs_path,
         original_path=original_path,
@@ -243,7 +243,6 @@ def cli(api_key, api_host, path, original_path, replace_path, recursive,
         skip=skip,
         skip_existing=skip_existing
     )
-    """
 
 
 # main block
